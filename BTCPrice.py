@@ -25,7 +25,7 @@ if __name__=='__main__':
     if 'Error' in json:
         print('An Error occured. Check internet connection.')
     else:
-        print('Current Price:\t$',json['last'])
-        print('24H High:\t$',json['high'])
-        print('24H Low:\t$',json['low'])
-        print('24H Volume:\t',json['volume'])
+        print('Current Price:$',json['last'])
+        print('24H High:\t\t$',json['high'])
+        print('24H Low:\t\t$',json['low'])
+        print('24H Volume:',json['volume'])
