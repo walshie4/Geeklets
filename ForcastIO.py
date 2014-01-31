@@ -65,4 +65,4 @@ if __name__ == '__main__':
     printWeatherInfo(current)
     hourlyData = json['hourly']['data']
     time = time.time()
-    printHourlyInfo(hourlyData, time, {1,2,4,6,12,24,48})
+    printHourlyInfo(hourlyData, time, HOURLYINFOTOREPORT)
