@@ -7,6 +7,7 @@
 #It is awesome and you should have it
 
 from __future__ import print_function
+from __future__ import division
 import requests
 import time
 import math
@@ -21,6 +22,8 @@ APIKEY = '2593824e7869f8849843a77521464d82' #ENTER YOUR OWN API KEY IN THE ''. G
 LAT = '43.0848' #ENTER LATITUDE YOU WOULD LIKE WEATHER INFO ON
 LONG = '-77.6744' #ENTER LONGITUDE YOU WOULD LIKE WEATHER INFO ON
 LOCATIONLABEL = 'Rochester, NY' #ENTER THE NAME FOR THIS LOCATION
+HOURLYINFOTOREPORT = {1, 2, 3, 5, 10, 20} #ENTER INDEX FOR HOURLY DATA TO REPORT For example: 1 will have the first hourly weather info printed
+                                                                                    #         2 will have the second...etc.
 
 def getWeatherInfo(): #This can be used up to 1000 times a day before costing money (see forcast.io API info)
     return requests.get(getAPIURL(APIKEY, LAT, LONG)).json()#This means the max refresh rate you should have is once every ~86.5 seconds
@@ -39,9 +42,28 @@ def printWeatherInfo(json):
     print('\tOzone:\t\t' + str(float(json['ozone'])) + ' Dobsons')#http://ozonewatch.gsfc.nasa.gov/facts/dobson.html
     print('\t' + str(float(json['cloudCover']) * 100) + '% of the sky is covered with clouds')
 
+def printHourlyInfo(data, time, hoursToPrint):
+    for hour in hoursToPrint:
+        hourInfo = data[hour]
+        hourTime = hourInfo['time']
+        print('Weather for ' + LOCATIONLABEL + ' in ' + str(formatTime(time, hourTime)))
+        printWeatherInfo(hourInfo)
+
+def formatTime(time, futureTime):
+    dif = futureTime - time
+    difMin = dif / 60
+    if difMin > 60:
+        hours = difMin // 60
+        difMin %= 60
+        return (str(hours) + ' hours and ' + str(round(difMin, 2)) + ' minutes.')
+    return (str(round(difMin, 2)) + ' minutes.')
+
 if __name__ == '__main__':
+    print('should say 3 hours and 14.5 minutes. ' + str(formatTime(1000, 12670)))
     print('Current Weather for ' + LOCATIONLABEL)
     json = getWeatherInfo()
     current = json['currently']
     printWeatherInfo(current)
-
+    hourlyData = json['hourly']['data']
+    time = time.time()
+    printHourlyInfo(hourlyData, time, {1,2,4,6,12,24,48})
