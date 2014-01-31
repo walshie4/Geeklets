@@ -17,7 +17,7 @@ import math
 
 __author__ = 'walshie4'
 
-APIKEY = '67fe393aa0351cc38b529dedff176452' #ENTER YOUR OWN API KEY IN THE ''. Get one from https://developer.forecast.io/
+APIKEY = '101995ad7f36ac3ef6586a4d0f3af28c' #ENTER YOUR OWN API KEY IN THE ''. Get one from https://developer.forecast.io/
 LAT = '43.0848' #ENTER LATITUDE YOU WOULD LIKE WEATHER INFO ON
 LONG = '-77.6744' #ENTER LONGITUDE YOU WOULD LIKE WEATHER INFO ON
 LOCATIONLABEL = 'Rochester, NY' #ENTER THE NAME FOR THIS LOCATION
@@ -32,7 +32,7 @@ WINDSPEED = True
 WINDBEARING = True
 OZONE = True
 CLOUDCOVER = True
-MILTIME = False#True #only this one works right now :P
+MILTIME = False
 #END CONFIG
 
 def getWeatherInfo(): #This can be used up to 1000 times a day before costing money (see forcast.io API info)
@@ -43,14 +43,22 @@ def getAPIURL(key, latitude, longitude):
     return base + APIKEY + '/' + latitude + ',' + longitude + '/'
 
 def printWeatherInfo(json):
-    print('\tTemp:\t\t' + str(json['temperature']) + '*F')
-    print('\tStatus:\t\t' + str(json['summary']))
-    print('\tDew Point:\t' + str(json['dewPoint']) + '*F')
-    print('\tHumidity:\t' + str(json['humidity']) + '%')
-    print('\tWind Speed:\t' + str(json['windSpeed']) + 'MPH')
-    print('\tWind Bearing:\t' + str(json['windBearing']) + '*')
-    print('\tOzone:\t\t' + str(float(json['ozone'])) + ' Dobsons')#http://ozonewatch.gsfc.nasa.gov/facts/dobson.html
-    print('\t' + str(float(json['cloudCover']) * 100) + '% of the sky is covered with clouds')
+    if TEMP:
+        print('\tTemp:\t\t' + str(json['temperature']) + '*F')
+    if STATUS:
+        print('\tStatus:\t\t' + str(json['summary']))
+    if DEWPOINT:
+        print('\tDew Point:\t' + str(json['dewPoint']) + '*F')
+    if HUMIDITY:
+        print('\tHumidity:\t' + str(json['humidity']) + '%')
+    if WINDSPEED:
+        print('\tWind Speed:\t' + str(json['windSpeed']) + 'MPH')
+    if WINDBEARING:
+        print('\tWind Bearing:\t' + str(json['windBearing']) + '*')
+    if OZONE:
+        print('\tOzone:\t\t' + str(float(json['ozone'])) + ' Dobsons')#http://ozonewatch.gsfc.nasa.gov/facts/dobson.html
+    if CLOUDCOVER:
+        print('\t' + str(float(json['cloudCover']) * 100) + '% of the sky is covered with clouds')
 
 def printHourlyInfo(data, time, hoursToPrint, timeZone):
     for hour in hoursToPrint:
@@ -75,7 +83,7 @@ def formatTime(time, futureTime, timeZone):
 
 if __name__ == '__main__':
     print('Current Weather for ' + LOCATIONLABEL)
-    json = getWeatherInfo()
+    json = getWeatherInfo() #IF YOU ARE GETTING AN ERROR HERE IT IS MOST LIKELY FROM AN INCORRECT API KEY OR API REQUEST OVERLOAD
     timeZone = json['offset']
     current = json['currently']
     printWeatherInfo(current)
