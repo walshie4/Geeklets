@@ -13,12 +13,11 @@ import math
 
 #TO DO: (in order of priority)
 # Add support for changing units
-# Add support for hourly, daily...future forcast info
 # Add config section
 
 __author__ = 'walshie4'
 
-APIKEY = '' #ENTER YOUR OWN API KEY IN THE ''. Get one from https://developer.forecast.io/
+APIKEY = '2593824e7869f8849843a77521464d82' #ENTER YOUR OWN API KEY IN THE ''. Get one from https://developer.forecast.io/
 LAT = '43.0848' #ENTER LATITUDE YOU WOULD LIKE WEATHER INFO ON
 LONG = '-77.6744' #ENTER LONGITUDE YOU WOULD LIKE WEATHER INFO ON
 LOCATIONLABEL = 'Rochester, NY' #ENTER THE NAME FOR THIS LOCATION
@@ -31,16 +30,18 @@ def getAPIURL(key, latitude, longitude):
     return base + APIKEY + '/' + latitude + ',' + longitude + '/'
 
 def printWeatherInfo(json):
-    print('\tTemp:\t' + str(json['temperature']) + '*F')
-    print('\tStatus:\t' + str(json['summary']))
+    print('\tTemp:\t\t' + str(json['temperature']) + '*F')
+    print('\tStatus:\t\t' + str(json['summary']))
     print('\tDew Point:\t' + str(json['dewPoint']) + '*F')
     print('\tHumidity:\t' + str(json['humidity']) + '%')
     print('\tWind Speed:\t' + str(json['windSpeed']) + 'MPH')
     print('\tWind Bearing:\t' + str(json['windBearing']) + '*')
-    print('\tOzone:\t' + str(json['ozone']) + 'Dobsons')#http://ozonewatch.gsfc.nasa.gov/facts/dobson.html
+    print('\tOzone:\t\t' + str(float(json['ozone'])) + ' Dobsons')#http://ozonewatch.gsfc.nasa.gov/facts/dobson.html
+    #print('\t' + str((json['cloudCover'])) + '% of the sky is covered with clouds')
 
 if __name__ == '__main__':
     print('Current Weather for ' + LOCATIONLABEL)
     json = getWeatherInfo()
     current = json['currently']
     printWeatherInfo(current)
+
