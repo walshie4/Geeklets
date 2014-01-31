@@ -37,7 +37,7 @@ def printWeatherInfo(json):
     print('\tWind Speed:\t' + str(json['windSpeed']) + 'MPH')
     print('\tWind Bearing:\t' + str(json['windBearing']) + '*')
     print('\tOzone:\t\t' + str(float(json['ozone'])) + ' Dobsons')#http://ozonewatch.gsfc.nasa.gov/facts/dobson.html
-    #print('\t' + str((json['cloudCover'])) + '% of the sky is covered with clouds')
+    print('\t' + str(float(json['cloudCover']) * 100) + '% of the sky is covered with clouds')
 
 if __name__ == '__main__':
     print('Current Weather for ' + LOCATIONLABEL)
