@@ -14,16 +14,26 @@ import math
 
 #TO DO: (in order of priority)
 # Add support for changing units
-# Add config section
 
 __author__ = 'walshie4'
 
-APIKEY = '2593824e7869f8849843a77521464d82' #ENTER YOUR OWN API KEY IN THE ''. Get one from https://developer.forecast.io/
+APIKEY = '67fe393aa0351cc38b529dedff176452' #ENTER YOUR OWN API KEY IN THE ''. Get one from https://developer.forecast.io/
 LAT = '43.0848' #ENTER LATITUDE YOU WOULD LIKE WEATHER INFO ON
 LONG = '-77.6744' #ENTER LONGITUDE YOU WOULD LIKE WEATHER INFO ON
 LOCATIONLABEL = 'Rochester, NY' #ENTER THE NAME FOR THIS LOCATION
 HOURLYINFOTOREPORT = {1, 2, 3, 5, 10, 20} #ENTER INDEX FOR HOURLY DATA TO REPORT For example: 1 will have the first hourly weather info printed
                                                                                     #         2 will have the second...etc.
+#CONFIG SECTION If you don't want one of these to show set it to false
+TEMP = True
+STATUS = True
+DEWPOINT = True
+HUMIDITY = True
+WINDSPEED = True
+WINDBEARING = True
+OZONE = True
+CLOUDCOVER = True
+MILTIME = False#True #only this one works right now :P
+#END CONFIG
 
 def getWeatherInfo(): #This can be used up to 1000 times a day before costing money (see forcast.io API info)
     return requests.get(getAPIURL(APIKEY, LAT, LONG)).json()#This means the max refresh rate you should have is once every ~86.5 seconds
@@ -42,27 +52,33 @@ def printWeatherInfo(json):
     print('\tOzone:\t\t' + str(float(json['ozone'])) + ' Dobsons')#http://ozonewatch.gsfc.nasa.gov/facts/dobson.html
     print('\t' + str(float(json['cloudCover']) * 100) + '% of the sky is covered with clouds')
 
-def printHourlyInfo(data, time, hoursToPrint):
+def printHourlyInfo(data, time, hoursToPrint, timeZone):
     for hour in hoursToPrint:
         hourInfo = data[hour]
         hourTime = hourInfo['time']
-        print('Weather for ' + LOCATIONLABEL + ' in ' + str(formatTime(time, hourTime)))
+        print('Weather for ' + LOCATIONLABEL + ' at ' + str(formatTime(time, hourTime, timeZone)))
         printWeatherInfo(hourInfo)
 
-def formatTime(time, futureTime):
+def formatTime(time, futureTime, timeZone):
     dif = futureTime - time
-    difMin = dif / 60
-    if difMin > 60:
-        hours = difMin // 60
-        difMin %= 60
-        return (str(hours) + ' hours and ' + str(round(difMin, 2)) + ' minutes.')
-    return (str(round(difMin, 2)) + ' minutes.')
+    currentHour = ((time % 86400) // 3600) + timeZone
+    futureHour = ((futureTime % 86400) // 3600) + timeZone
+    if futureHour < 0:
+        futureHour += 24
+    unit = 'AM'
+    if futureHour > 12:
+        unit = 'PM'
+    if not MILTIME:
+        futureHour %= 12 #cut day in two, leave remainder
+        return str(futureHour) + ':00' + unit
+    return str(futureHour) + ':00'
 
 if __name__ == '__main__':
     print('Current Weather for ' + LOCATIONLABEL)
     json = getWeatherInfo()
+    timeZone = json['offset']
     current = json['currently']
     printWeatherInfo(current)
     hourlyData = json['hourly']['data']
     time = time.time()
-    printHourlyInfo(hourlyData, time, HOURLYINFOTOREPORT)
+    printHourlyInfo(hourlyData, time, HOURLYINFOTOREPORT, timeZone)
