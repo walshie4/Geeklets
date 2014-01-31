@@ -21,7 +21,7 @@ APIKEY = '7f19527c0c30f3b733c91beb3a393937' #ENTER YOUR OWN API KEY IN THE ''. G
 LAT = '43.0848' #ENTER LATITUDE YOU WOULD LIKE WEATHER INFO ON
 LONG = '-77.6744' #ENTER LONGITUDE YOU WOULD LIKE WEATHER INFO ON
 LOCATIONLABEL = 'Rochester, NY' #ENTER THE NAME FOR THIS LOCATION
-HOURLYINFOTOREPORT = {1, 2, 3, 5, 10, 20} #ENTER INDEX FOR HOURLY DATA TO REPORT For example: 1 will have the first hourly weather info printed
+HOURLYINFOTOREPORT = {1, 2, 3} #ENTER INDEX FOR HOURLY DATA TO REPORT For example: 1 will have the first hourly weather info printed
                                                                                     #         2 will have the second...etc.
 #CONFIG SECTION If you don't want one of these to show set it to false
 TEMP = True
@@ -48,9 +48,9 @@ def printWeatherInfo(json):
     if STATUS:
         print('\tStatus:\t\t' + str(json['summary']))
     if DEWPOINT:
-        print('\tDew Point:\t' + str(json['dewPoint']) + '*F')
+        print('\tDew Point:\t\t' + str(json['dewPoint']) + '*F')
     if HUMIDITY:
-        print('\tHumidity:\t' + str(json['humidity']) + '%')
+        print('\tHumidity:\t\t' + str(json['humidity']) + '%')
     if WINDSPEED:
         print('\tWind Speed:\t' + str(json['windSpeed']) + 'MPH')
     if WINDBEARING:
