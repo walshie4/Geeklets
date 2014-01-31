@@ -17,7 +17,7 @@ import math
 
 __author__ = 'walshie4'
 
-APIKEY = '101995ad7f36ac3ef6586a4d0f3af28c' #ENTER YOUR OWN API KEY IN THE ''. Get one from https://developer.forecast.io/
+APIKEY = '7f19527c0c30f3b733c91beb3a393937' #ENTER YOUR OWN API KEY IN THE ''. Get one from https://developer.forecast.io/
 LAT = '43.0848' #ENTER LATITUDE YOU WOULD LIKE WEATHER INFO ON
 LONG = '-77.6744' #ENTER LONGITUDE YOU WOULD LIKE WEATHER INFO ON
 LOCATIONLABEL = 'Rochester, NY' #ENTER THE NAME FOR THIS LOCATION
@@ -59,6 +59,7 @@ def printWeatherInfo(json):
         print('\tOzone:\t\t' + str(float(json['ozone'])) + ' Dobsons')#http://ozonewatch.gsfc.nasa.gov/facts/dobson.html
     if CLOUDCOVER:
         print('\t' + str(float(json['cloudCover']) * 100) + '% of the sky is covered with clouds')
+    print()
 
 def printHourlyInfo(data, time, hoursToPrint, timeZone):
     for hour in hoursToPrint:
