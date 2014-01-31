@@ -59,7 +59,6 @@ def formatTime(time, futureTime):
     return (str(round(difMin, 2)) + ' minutes.')
 
 if __name__ == '__main__':
-    print('should say 3 hours and 14.5 minutes. ' + str(formatTime(1000, 12670)))
     print('Current Weather for ' + LOCATIONLABEL)
     json = getWeatherInfo()
     current = json['currently']
