@@ -50,7 +50,7 @@ def printWeatherInfo(json):
     if DEWPOINT:
         print('\tDew Point:\t\t' + str(json['dewPoint']) + '*F')
     if HUMIDITY:
-        print('\tHumidity:\t\t' + str(json['humidity']) + '%')
+        print('\tHumidity:\t\t' + str(json['humidity']*100) + '%')
     if WINDSPEED:
         print('\tWind Speed:\t' + str(json['windSpeed']) + 'MPH')
     if WINDBEARING:
