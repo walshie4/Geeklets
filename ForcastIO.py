@@ -21,7 +21,7 @@ APIKEY = '7f19527c0c30f3b733c91beb3a393937' #ENTER YOUR OWN API KEY IN THE ''. G
 LAT = '43.0848' #ENTER LATITUDE YOU WOULD LIKE WEATHER INFO ON
 LONG = '-77.6744' #ENTER LONGITUDE YOU WOULD LIKE WEATHER INFO ON
 LOCATIONLABEL = 'Rochester, NY' #ENTER THE NAME FOR THIS LOCATION
-HOURLYINFOTOREPORT = {1, 2, 3} #ENTER INDEX FOR HOURLY DATA TO REPORT For example: 1 will have the first hourly weather info printed
+HOURLYINFOTOREPORT = {1, 2, 3, 14} #ENTER INDEX FOR HOURLY DATA TO REPORT For example: 1 will have the first hourly weather info printed
                                                                                     #         2 will have the second...etc.
 #CONFIG SECTION If you don't want one of these to show set it to false
 TEMP = True
@@ -72,13 +72,17 @@ def formatTime(time, futureTime, timeZone):
     dif = futureTime - time
     currentHour = ((time % 86400) // 3600) + timeZone
     futureHour = ((futureTime % 86400) // 3600) + timeZone
-    if futureHour < 0:
+    if futureHour <= 0:
         futureHour += 24
+#    elif futureHour > 24:
+#        futureHour % 24
     unit = 'AM'
-    if futureHour > 12:
+    if futureHour > 12 and futureHour < 24:
         unit = 'PM'
     if not MILTIME:
         futureHour %= 12 #cut day in two, leave remainder
+        if futureHour is 0: #account for modding 12:00 to 00:00
+            futureHour += 12
         return str(futureHour) + ':00' + unit
     return str(futureHour) + ':00'
 
