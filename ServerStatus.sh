@@ -7,6 +7,10 @@ SERVER='www.something.com' #put URL in ''s in this variable
 #End config
 
 response=`ping -c 1 $SERVER`
-ip=`echo $response | cut -f2 -d '(' | cut -f1 -d ')'`
-time=`echo $response | cut -f4 -d '=' | cut -f1 -d ' '`
-echo "The server at $ip ($SERVER) responded in $time ms."
+if [[ -n "$response" ]]; then #if response is non-zero (got a response)
+    ip=`echo $response | cut -f2 -d '(' | cut -f1 -d ')'` #get the ip
+    time=`echo $response | cut -f4 -d '=' | cut -f1 -d ' '` #get the response time
+    echo "The server at $ip ($SERVER) responded in $time ms."  #print the info
+else
+    echo "Invalid hostname or not connected to the internet" #alert the user of error
+fi
