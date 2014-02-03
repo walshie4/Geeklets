@@ -3,12 +3,11 @@
 #Maintained at https://github.com/walshie4/Geeklets
 #Created on 2/2/2014
 #Server list config
-SERVER='www.rit.edu' #put URL in ''s in this variable 
-#End config
+SERVER='www.google.com' #put URL in ''s in this variable 
+NUM_PINGS=5 #Set the number of pings to average for each reported time
+#End Config
 
-ALL='100.0'
-
-response=`ping -c 5 $SERVER`
+response=`ping -c $NUM_PINGS $SERVER`
 if [[ -n "$response" ]]; then #if response is non-zero (got a response)
     ip=`echo $response | cut -f2 -d '(' | cut -f1 -d ')'` #get the ip
     lost=`echo $response | cut -f1 -d '%' | tail -c 10 | cut -f2 -d ' '` #get the percent of packets lost
