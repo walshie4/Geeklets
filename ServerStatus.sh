@@ -3,7 +3,7 @@
 #Maintained at https://github.com/walshie4/Geeklets
 #Created on 2/2/2014
 #Server list config
-SERVER='www.google.com' #put URL in ''s in this variable 
+SERVER='se.rit.edu' #put URL in ''s in this variable 
 NUM_PINGS=5 #Set the number of pings to average for each reported time
 #End Config
 
