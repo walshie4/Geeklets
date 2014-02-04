@@ -9,12 +9,14 @@ import time
 
 __author__='walshie4'
 
+#CONFIG
 YEAR = 2014
 MONTH = 5
-DAY = 19
+DAY = 19    #set this event time to change the event you are counting down to
 HOUR = 0
 MIN = 0
 SEC = 0
+#END CONFIG
 
 daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 daysInMonthLY = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
