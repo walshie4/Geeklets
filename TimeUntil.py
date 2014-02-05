@@ -9,6 +9,10 @@ import time
 
 __author__='walshie4'
 
+#TODO
+#Add way to config print out format
+#Support multiple events
+
 #CONFIG
 YEAR = 2014
 MONTH = 5
