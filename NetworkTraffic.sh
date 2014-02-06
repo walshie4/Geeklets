@@ -25,4 +25,4 @@ outMB=$(($out / 1048576))
 echo "TX:$RED$outMB$RESET MBs  RX:$GREEN$inMB$RESET MBs"
 diffIn=$((($in2 - $in) / 1024))
 diffOut=$((($out2 - $out) / 1024))
-echo "TX:$RED$diffOut$RESET MBs/s  RX:$GREEN$diffIn$RESET MBs/s"
+echo "TX:$RED$diffOut$RESET KBs/s  RX:$GREEN$diffIn$RESET KBs/s"
