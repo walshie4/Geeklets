@@ -12,9 +12,6 @@ import requests
 import time
 import math
 
-#TO DO: (in order of priority)
-# Add support for changing units
-
 __author__ = 'walshie4'
 
 APIKEY = '7f19527c0c30f3b733c91beb3a393937' #ENTER YOUR OWN API KEY IN THE ''. Get one from https://developer.forecast.io/
@@ -22,7 +19,7 @@ LAT = '43.0848' #ENTER LATITUDE YOU WOULD LIKE WEATHER INFO ON
 LONG = '-77.6744' #ENTER LONGITUDE YOU WOULD LIKE WEATHER INFO ON
 LOCATIONLABEL = 'Rochester, NY' #ENTER THE NAME FOR THIS LOCATION
 HOURLYINFOTOREPORT = {1, 2, 3, 14} #ENTER INDEX FOR HOURLY DATA TO REPORT For example: 1 will have the first hourly weather info printed
-                                                                                    #         2 will have the second...etc.
+                                   #         2 will have the second...etc.
 #CONFIG SECTION If you don't want one of these to show set it to false
 TEMP = True
 STATUS = True
@@ -32,7 +29,8 @@ WINDSPEED = True
 WINDBEARING = True
 OZONE = True
 CLOUDCOVER = True
-MILTIME = False
+MILTIME = True
+METRIC = True
 #END CONFIG
 
 def getWeatherInfo(): #This can be used up to 1000 times a day before costing money (see forcast.io API info)
@@ -44,15 +42,24 @@ def getAPIURL(key, latitude, longitude):
 
 def printWeatherInfo(json):
     if TEMP:
-        print('\tTemp:\t\t' + str(json['temperature']) + '*F')
+        if METRIC:
+            print('\tTemp:\t\t' + str(convertToCelcius(json['temperature'])) + '*C')
+        else:
+            print('\tTemp:\t\t' + str(json['temperature']) + '*F')
     if STATUS:
         print('\tStatus:\t\t' + str(json['summary']))
     if DEWPOINT:
-        print('\tDew Point:\t\t' + str(json['dewPoint']) + '*F')
+        if METRIC:
+            print('\tDew Point:\t\t' + str(convertToCelcius(json['dewPoint'])) + '*C')
+        else:
+            print('\tDew Point:\t\t' + str(json['dewPoint']) + '*F')
     if HUMIDITY:
         print('\tHumidity:\t\t' + str(json['humidity']*100) + '%')
     if WINDSPEED:
-        print('\tWind Speed:\t' + str(json['windSpeed']) + 'MPH')
+        if METRIC:
+            print('\tWind Speed:\t' + str(convertToKm(json['windSpeed'])) + 'KM/H')
+        else:
+            print('\tWind Speed:\t' + str(json['windSpeed']) + 'MPH')
     if WINDBEARING:
         print('\tWind Bearing:\t' + str(json['windBearing']) + '*')
     if OZONE:
@@ -85,6 +92,12 @@ def formatTime(time, futureTime, timeZone):
             futureHour += 12
         return str(futureHour) + ':00' + unit
     return str(futureHour) + ':00'
+
+def convertToCelcius(temp):
+    return round((temp - 32) * (5/9),2)
+
+def convertToKm(MPH):
+    return round(MPH * 1.6,2)
 
 if __name__ == '__main__':
     print('Current Weather for ' + LOCATIONLABEL)
